@@ -1,0 +1,6 @@
+{
+  "name": "InvoiceCraft",
+  "description": "Create professional invoices in seconds. Free, responsive, offline-first invoice generator for freelancers, small businesses, and agencies with Google AdSense support and custom PDF export.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

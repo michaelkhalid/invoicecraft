@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Primary Landing Experience -->
+  <url>
+    <loc>https://invoicecraft.co/</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- Active Invoice Creator Tool -->
+  <url>
+    <loc>https://invoicecraft.co/?view=generator</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Blog Index -->
+  <url>
+    <loc>https://invoicecraft.co/?view=blog</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Help FAQ page -->
+  <url>
+    <loc>https://invoicecraft.co/?view=faq</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Blog Post: How to write a professional invoice -->
+  <url>
+    <loc>https://invoicecraft.co/?blog=how-to-write-a-professional-invoice</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Blog Post: Understanding freelance taxes -->
+  <url>
+    <loc>https://invoicecraft.co/?blog=understanding-freelance-taxes-beginners-roadmap</loc>
+    <lastmod>2026-06-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Blog Post: 5 billing mistakes -->
+  <url>
+    <loc>https://invoicecraft.co/?blog=5-billing-mistakes-that-delay-client-payments</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- About Company -->
+  <url>
+    <loc>https://invoicecraft.co/?view=about</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <!-- Contact Support Desk -->
+  <url>
+    <loc>https://invoicecraft.co/?view=contact</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <!-- Regulatory GDPR Privacy Policy -->
+  <url>
+    <loc>https://invoicecraft.co/?view=privacy</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  
+  <!-- Terms & Conditions -->
+  <url>
+    <loc>https://invoicecraft.co/?view=terms</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- Cookie policy -->
+  <url>
+    <loc>https://invoicecraft.co/?view=cookie</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- General Disclaimer -->
+  <url>
+    <loc>https://invoicecraft.co/?view=disclaimer</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+</urlset>

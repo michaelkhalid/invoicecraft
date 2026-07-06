@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-display: "Space Grotesk", sans-serif;
+}
+
+/* Custom visual styles for layout and micro-interactions */
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Smooth custom scrollbars for table panels */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+/* ==========================================================================
+   PRINT STYLESHEET (A4 PDF EXPORT RULES)
+   ========================================================================== */
+@media print {
+  /* Set document size and standard page margins */
+  @page {
+    size: A4 portrait;
+    margin: 15mm 15mm 15mm 15mm;
+  }
+
+  /* Reset document background to pure white and disable dark mode inversion */
+  html, body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide all auxiliary and interactive components completely */
+  header,
+  footer,
+  nav,
+  .print\:hidden,
+  [id^="adsense-"],
+  button,
+  input[type="file"],
+  .fixed,
+  .fixed.inset-0 {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Expand the invoice preview container to fill the complete A4 viewport */
+  .invoice-print-container,
+  #a4-printable-sheet {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    position: static !important;
+    transform: none !important;
+  }
+
+  /* Style headings and colors for crisp high-contrast physical prints */
+  h1, h2, h3, h4, h5, h6 {
+    color: #000000 !important;
+    font-weight: bold !important;
+  }
+
+  /* Ensure table borders and zebra layouts remain clean */
+  table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+  }
+
+  th {
+    color: #475569 !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+  }
+
+  td {
+    border-bottom: 1px solid #f1f5f9 !important;
+  }
+
+  /* Ensure text colors are printed perfectly black */
+  .text-slate-500,
+  .text-slate-600,
+  .text-slate-400 {
+    color: #1e293b !important;
+  }
+
+  /* Force links to display cleanly without underlines */
+  a {
+    text-decoration: none !important;
+    color: #000000 !important;
+  }
+}
