@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { BLOG_POSTS } from '../data/blogData';
+import { getArticles } from '../blog/data/articles';
 
 export default function SEOManager() {
   const location = useLocation();
@@ -129,31 +130,96 @@ export default function SEOManager() {
       breadcrumbList.push({ name: 'Blog', url: `${baseUrl}/blog` });
 
       if (slug) {
-        const post = BLOG_POSTS.find(p => p.slug === slug);
-        if (post) {
-          title = `${post.title} | InvoiceCraft Blog`;
-          description = post.summary;
-          keywords = post.tags.join(', ') + ', invoice blog, freelance tax compliance';
-          author = post.author.name;
+        // Query the new professional articles first, fall back to legacy blog posts
+        const articles = getArticles();
+        const activeArticle = articles.find(p => p.slug === slug);
+        const legacyPost = BLOG_POSTS.find(p => p.slug === slug);
+
+        if (activeArticle) {
+          title = activeArticle.seoTitle || `${activeArticle.title} | InvoiceCraft Blog`;
+          description = activeArticle.description;
+          keywords = (activeArticle.keywords && activeArticle.keywords.join(', ')) || (activeArticle.tags && activeArticle.tags.join(', ')) || 'invoice, blog';
+          author = activeArticle.author.name;
           ogType = 'article';
-          ogImage = post.image;
-          pageName = post.title;
-          breadcrumbList.push({ name: post.title, url: `${baseUrl}/blog/${slug}` });
+          ogImage = activeArticle.featuredImage;
+          pageName = activeArticle.title;
+          breadcrumbList.push({ name: activeArticle.title, url: `${baseUrl}/blog/${slug}` });
+
+          // Dynamic Date formatting helper for SEO compliance
+          const isoPublish = new Date(activeArticle.publishedDate).toISOString();
+          const isoUpdate = new Date(activeArticle.updatedDate).toISOString();
 
           // BlogPosting Schema
           pageSpecificSchema = {
             '@type': 'BlogPosting',
             '@id': `${baseUrl}/blog/${slug}#entry`,
-            'headline': post.title,
-            'description': post.summary,
-            'image': post.image,
-            'datePublished': '2026-07-02T09:00:00Z', // Mapped based on published date estimations
+            'headline': activeArticle.title,
+            'description': activeArticle.description,
+            'image': activeArticle.featuredImage,
+            'datePublished': isoPublish,
+            'dateModified': isoUpdate,
+            'author': {
+              '@type': 'Person',
+              'name': activeArticle.author.name,
+              'jobTitle': activeArticle.author.role,
+              'image': activeArticle.author.avatar
+            },
+            'publisher': {
+              '@type': 'Organization',
+              'name': siteName,
+              'logo': {
+                '@type': 'ImageObject',
+                'url': `${baseUrl}/icon.svg`
+              }
+            },
+            'mainEntityOfPage': {
+              '@type': 'WebPage',
+              '@id': `${baseUrl}/blog/${slug}`
+            }
+          };
+
+          // If the article features FAQs, inject FAQPage schema seamlessly as a child node
+          if (activeArticle.faq && activeArticle.faq.length > 0) {
+            const articleFaqsSchema = {
+              '@type': 'FAQPage',
+              '@id': `${baseUrl}/blog/${slug}#faqs`,
+              'mainEntity': activeArticle.faq.map(f => ({
+                '@type': 'Question',
+                'name': f.question,
+                'acceptedAnswer': {
+                  '@type': 'Answer',
+                  'text': f.answer
+                }
+              }))
+            };
+            // Set pageSpecificSchema as an array of schemas if FAQ exists
+            pageSpecificSchema = [pageSpecificSchema, articleFaqsSchema];
+          }
+
+        } else if (legacyPost) {
+          title = `${legacyPost.title} | InvoiceCraft Blog`;
+          description = legacyPost.summary;
+          keywords = legacyPost.tags.join(', ') + ', invoice blog, freelance tax compliance';
+          author = legacyPost.author.name;
+          ogType = 'article';
+          ogImage = legacyPost.image;
+          pageName = legacyPost.title;
+          breadcrumbList.push({ name: legacyPost.title, url: `${baseUrl}/blog/${slug}` });
+
+          // BlogPosting Schema
+          pageSpecificSchema = {
+            '@type': 'BlogPosting',
+            '@id': `${baseUrl}/blog/${slug}#entry`,
+            'headline': legacyPost.title,
+            'description': legacyPost.summary,
+            'image': legacyPost.image,
+            'datePublished': '2026-07-02T09:00:00Z',
             'dateModified': '2026-07-06T18:00:00Z',
             'author': {
               '@type': 'Person',
-              'name': post.author.name,
-              'jobTitle': post.author.role,
-              'image': post.author.avatar
+              'name': legacyPost.author.name,
+              'jobTitle': legacyPost.author.role,
+              'image': legacyPost.author.avatar
             },
             'publisher': {
               '@type': 'Organization',
