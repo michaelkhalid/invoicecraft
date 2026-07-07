@@ -1,20 +1,16 @@
 import React from 'react';
-import { ArrowRight, Sparkles, FileText, CheckCircle2, ShieldCheck, Zap, Receipt, Layers, HelpCircle, FileCheck, ArrowUpRight } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
+import { ArrowRight, Sparkles, FileText, CheckCircle2, ShieldCheck, FileCheck, ArrowUpRight, HelpCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 import { BLOG_POSTS } from '../data/blogData';
 
-interface HomePageProps {
-  onNavigate: (view: string) => void;
-  onNavigateToPost?: (slug: string) => void;
-}
-
-export default function HomePage({ onNavigate, onNavigateToPost }: HomePageProps) {
-  // Grab the 2 most recent blog posts for the homepage feed
+export default function HomePage() {
+  const navigate = useNavigate();
   const featuredPosts = BLOG_POSTS.slice(0, 2);
 
   const benefits = [
     {
-      icon: <Zap className="h-6 w-6 text-blue-600" />,
+      icon: <ZapIcon className="h-6 w-6 text-blue-600" />,
       title: 'Ready in 60 Seconds',
       description: 'Skip the wizards and registration. Simply open the generator tab, fill in your billing details, and export instantly.'
     },
@@ -84,15 +80,15 @@ export default function HomePage({ onNavigate, onNavigateToPost }: HomePageProps
               className="flex flex-wrap gap-3"
             >
               <button
-                onClick={() => onNavigate('generator')}
-                className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3.5 font-sans text-sm font-semibold text-white shadow-xs transition hover:bg-blue-700 focus:outline-hidden active:scale-98"
+                onClick={() => navigate('/generator')}
+                className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3.5 font-sans text-sm font-semibold text-white shadow-xs transition hover:bg-blue-700 focus:outline-hidden active:scale-98 cursor-pointer"
               >
                 Start Generating Invoice
                 <ArrowRight className="h-4 w-4" />
               </button>
               <button
-                onClick={() => onNavigate('about')}
-                className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3.5 font-sans text-sm font-semibold text-slate-700 transition hover:bg-slate-50 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300 dark:hover:bg-slate-900"
+                onClick={() => navigate('/about')}
+                className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3.5 font-sans text-sm font-semibold text-slate-700 transition hover:bg-slate-50 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300 dark:hover:bg-slate-900 cursor-pointer"
               >
                 Why InvoiceCraft?
               </button>
@@ -298,22 +294,20 @@ export default function HomePage({ onNavigate, onNavigateToPost }: HomePageProps
               Expert articles and tutorials to guide your business accounting compliance.
             </p>
           </div>
-          <button
-            onClick={() => onNavigate('blog')}
+          <Link
+            to="/blog"
             className="group inline-flex items-center gap-1.5 font-sans text-xs font-bold text-blue-600 hover:text-blue-700 dark:text-blue-400"
           >
             All Articles
             <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </button>
+          </Link>
         </div>
 
         <div className="mt-8 grid gap-8 sm:grid-cols-2">
           {featuredPosts.map((post) => (
             <div
               key={post.id}
-              onClick={() => {
-                if (onNavigateToPost) onNavigateToPost(post.slug);
-              }}
+              onClick={() => navigate(`/blog/${post.slug}`)}
               className="group flex cursor-pointer gap-4 items-start rounded-2xl border border-slate-100 bg-white p-4 transition duration-300 hover:border-blue-100 hover:shadow-xs dark:border-slate-800 dark:bg-slate-950"
             >
               <img
@@ -355,8 +349,8 @@ export default function HomePage({ onNavigate, onNavigateToPost }: HomePageProps
 
           <div className="mt-6 text-center">
             <button
-              onClick={() => onNavigate('faq')}
-              className="font-sans text-xs font-semibold text-blue-600 hover:underline dark:text-blue-400"
+              onClick={() => navigate('/faq')}
+              className="font-sans text-xs font-semibold text-blue-600 hover:underline dark:text-blue-400 cursor-pointer"
             >
               View complete FAQ database →
             </button>
@@ -364,5 +358,24 @@ export default function HomePage({ onNavigate, onNavigateToPost }: HomePageProps
         </div>
       </section>
     </div>
+  );
+}
+
+function ZapIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+    </svg>
   );
 }

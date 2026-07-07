@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Tag, Calendar, Clock, ArrowLeft, BookOpen, Share2, User } from 'lucide-react';
-import { BLOG_POSTS, ALL_CATEGORIES, ALL_TAGS } from '../data/blogData';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { Search, Tag, Calendar, Clock, ArrowLeft, BookOpen, Share2 } from 'lucide-react';
+import { BLOG_POSTS, ALL_CATEGORIES } from '../data/blogData';
 import { BlogPost } from '../types';
-import AdSensePlaceholder from './AdSensePlaceholder';
+import AdSensePlaceholder from '../components/AdSensePlaceholder';
 
-interface BlogProps {
-  onNavigateToPost?: (slug: string) => void;
-  selectedPostSlug?: string;
-  onClearSlug?: () => void;
-}
-
-export default function Blog({ onNavigateToPost, selectedPostSlug, onClearSlug }: BlogProps) {
+export default function Blog() {
+  const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
@@ -18,36 +15,31 @@ export default function Blog({ onNavigateToPost, selectedPostSlug, onClearSlug }
   const [copiedLink, setCopiedLink] = useState(false);
 
   useEffect(() => {
-    if (selectedPostSlug) {
-      const post = BLOG_POSTS.find(p => p.slug === selectedPostSlug);
+    if (slug) {
+      const post = BLOG_POSTS.find(p => p.slug === slug);
       if (post) {
         setActivePost(post);
         window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        // If slug is not found, redirect to blog index or 404
+        navigate('/blog', { replace: true });
       }
     } else {
       setActivePost(null);
     }
-  }, [selectedPostSlug]);
+  }, [slug, navigate]);
 
   const handlePostClick = (post: BlogPost) => {
-    if (onNavigateToPost) {
-      onNavigateToPost(post.slug);
-    } else {
-      setActivePost(post);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    navigate(`/blog/${post.slug}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleBackToList = () => {
-    if (onClearSlug) {
-      onClearSlug();
-    } else {
-      setActivePost(null);
-    }
+    navigate('/blog');
   };
 
   const handleSharePost = (post: BlogPost) => {
-    const url = `${window.location.origin}${window.location.pathname}?blog=${post.slug}`;
+    const url = `${window.location.origin}/blog/${post.slug}`;
     navigator.clipboard.writeText(url);
     setCopiedLink(true);
     setTimeout(() => setCopiedLink(false), 2000);
@@ -72,7 +64,7 @@ export default function Blog({ onNavigateToPost, selectedPostSlug, onClearSlug }
       <article className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8" id={`blog-post-${activePost.slug}`}>
         <button
           onClick={handleBackToList}
-          className="group mb-8 inline-flex items-center gap-2 font-sans text-xs font-semibold text-slate-500 transition hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400"
+          className="group mb-8 inline-flex items-center gap-2 font-sans text-xs font-semibold text-slate-500 transition hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 cursor-pointer"
         >
           <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
           Back to Articles
@@ -98,7 +90,7 @@ export default function Blog({ onNavigateToPost, selectedPostSlug, onClearSlug }
             </div>
             <button
               onClick={() => handleSharePost(activePost)}
-              className="ml-auto flex items-center gap-1.5 font-semibold text-blue-600 transition hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+              className="ml-auto flex items-center gap-1.5 font-semibold text-blue-600 transition hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 cursor-pointer"
             >
               <Share2 className="h-3.5 w-3.5" />
               {copiedLink ? 'Copied Link!' : 'Share Article'}
@@ -107,7 +99,7 @@ export default function Blog({ onNavigateToPost, selectedPostSlug, onClearSlug }
         </div>
 
         {/* Post Banner Image */}
-        <div className="my-8 overflow-hidden rounded-2xl border border-slate-100 dark:border-slate-800">
+        <div className="my-8 overflow-hidden rounded-2xl border border-slate-100 dark:border-slate-800 animate-in fade-in zoom-in-95 duration-300">
           <img
             src={activePost.image}
             alt={activePost.title}

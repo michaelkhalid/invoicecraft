@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { HelpCircle, ChevronDown, ChevronUp, Sparkles, BookOpen, AlertCircle } from 'lucide-react';
+import { ChevronDown, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { FAQItem } from '../types';
 
@@ -51,11 +51,31 @@ export default function FAQPage() {
     ? FAQ_DATA
     : FAQ_DATA.filter(item => item.category === activeTab);
 
+  // Generate the FAQ Schema for search engines
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': FAQ_DATA.map(item => ({
+      '@type': 'Question',
+      'name': item.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': item.answer
+      }
+    }))
+  };
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8" id="faq-page">
+      {/* FAQ Schema Injector */}
+      <script type="application/ld+json">
+        {JSON.stringify(faqSchema)}
+      </script>
+
       <div className="space-y-12">
         <div className="text-center">
-          <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700 ring-1 ring-blue-700/10 dark:bg-blue-950/40 dark:text-blue-400">
+          <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700 ring-1 ring-blue-700/10 dark:bg-blue-950/40 dark:text-blue-400">
+            <Sparkles className="h-3 w-3 text-blue-500" />
             Frequently Asked Questions
           </span>
           <h1 className="mt-4 font-sans text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl dark:text-white">
@@ -67,17 +87,19 @@ export default function FAQPage() {
         </div>
 
         {/* Categories Tab Selector */}
-        <div className="flex flex-wrap justify-center gap-2 border-b border-slate-100 pb-4 dark:border-slate-800">
+        <div className="flex flex-wrap justify-center gap-2 border-b border-slate-100 pb-4 dark:border-slate-800" role="tablist" aria-label="FAQ categories">
           {categories.map((cat) => (
             <button
               key={cat}
+              role="tab"
+              aria-selected={activeTab === cat}
               onClick={() => {
                 setActiveTab(cat);
                 setOpenIndex(null);
               }}
-              className={`rounded-full px-4 py-1.5 font-sans text-xs font-medium transition ${
+              className={`rounded-full px-4 py-1.5 font-sans text-xs font-medium transition cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-blue-500 ${
                 activeTab === cat
-                  ? 'bg-blue-600 text-white shadow-xs'
+                  ? 'bg-blue-600 text-white shadow-xs font-semibold'
                   : 'bg-slate-50 text-slate-600 hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-400 dark:hover:bg-slate-800'
               }`}
             >
@@ -87,7 +109,7 @@ export default function FAQPage() {
         </div>
 
         {/* Accordions */}
-        <div className="space-y-4">
+        <div className="space-y-4" role="region" aria-label="Accordion items">
           {filteredFaqs.map((faq, index) => {
             const isOpen = openIndex === index;
             return (
@@ -97,21 +119,23 @@ export default function FAQPage() {
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : index)}
-                  className="flex w-full items-center justify-between p-6 text-left"
+                  className="flex w-full items-center justify-between p-6 text-left cursor-pointer focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                  aria-expanded={isOpen}
+                  id={`faq-header-${index}`}
+                  aria-controls={`faq-content-${index}`}
                 >
                   <span className="font-sans text-base font-semibold text-slate-900 dark:text-white">
                     {faq.question}
                   </span>
-                  {isOpen ? (
-                    <ChevronDown className="h-5 w-5 rotate-180 text-blue-600 transition-transform duration-200 dark:text-blue-400" />
-                  ) : (
-                    <ChevronDown className="h-5 w-5 text-slate-400 transition-transform duration-200 dark:text-slate-500" />
-                  )}
+                  <ChevronDown className={`h-5 w-5 text-slate-400 transition-transform duration-200 dark:text-slate-500 ${isOpen ? 'rotate-180 text-blue-600 dark:text-blue-400' : ''}`} aria-hidden="true" />
                 </button>
 
                 <AnimatePresence>
                   {isOpen && (
                     <motion.div
+                      id={`faq-content-${index}`}
+                      aria-labelledby={`faq-header-${index}`}
+                      role="region"
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}

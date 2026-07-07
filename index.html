@@ -4,6 +4,53 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>InvoiceCraft - Create Professional Invoices in Seconds</title>
+    <script>
+      (function() {
+        try {
+          let currentFetch = window.fetch;
+          
+          function patch(obj) {
+            if (!obj) return;
+            try {
+              Object.defineProperty(obj, 'fetch', {
+                get() {
+                  return currentFetch;
+                },
+                set(value) {
+                  currentFetch = value;
+                },
+                configurable: true,
+                enumerable: true
+              });
+            } catch (e1) {
+              try {
+                const proto = Object.getPrototypeOf(obj);
+                if (proto) {
+                  Object.defineProperty(proto, 'fetch', {
+                    get() {
+                      return currentFetch;
+                    },
+                    set(value) {
+                      currentFetch = value;
+                    },
+                    configurable: true,
+                    enumerable: true
+                  });
+                }
+              } catch (e2) {
+                console.warn('Unable to patch fetch on prototype:', e2);
+              }
+            }
+          }
+          
+          patch(window);
+          patch(globalThis);
+          patch(self);
+        } catch (e) {
+          console.warn('Unable to patch fetch:', e);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

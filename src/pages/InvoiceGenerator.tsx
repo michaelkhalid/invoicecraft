@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Plus, Trash2, Printer, RotateCcw, Share2, Copy, FileText, Check, Download, QrCode, Sparkles, FolderOpen, History, HeartHandshake } from 'lucide-react';
 import { Invoice, InvoiceItem } from '../types';
-import AdSensePlaceholder from './AdSensePlaceholder';
+import AdSensePlaceholder from '../components/AdSensePlaceholder';
 
 // Supported Currencies
 const CURRENCIES = [
