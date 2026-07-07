@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#1d4ed8" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#1e3a8a" flood-opacity="0.15" />
+    </filter>
+  </defs>
+  <!-- Background Container -->
+  <rect width="512" height="512" rx="128" fill="url(#bgGrad)" />
+  
+  <!-- Document Sheet with Shadow -->
+  <g filter="url(#shadow)">
+    <rect x="128" y="112" width="256" height="312" rx="24" fill="#ffffff" />
+  </g>
+  
+  <!-- Invoice Header Bar -->
+  <rect x="160" y="144" width="192" height="40" rx="12" fill="#2563eb" />
+  <rect x="180" y="156" width="60" height="16" rx="4" fill="#ffffff" opacity="0.9" />
+  <circle cx="320" cy="164" r="8" fill="#60a5fa" />
+  
+  <!-- Table Mockup Lines -->
+  <!-- Line 1 -->
+  <rect x="160" y="216" width="112" height="14" rx="7" fill="#94a3b8" />
+  <rect x="296" y="216" width="56" height="14" rx="7" fill="#cbd5e1" />
+  
+  <!-- Line 2 -->
+  <rect x="160" y="254" width="136" height="14" rx="7" fill="#94a3b8" />
+  <rect x="312" y="254" width="40" height="14" rx="7" fill="#cbd5e1" />
+  
+  <!-- Line 3 -->
+  <rect x="160" y="292" width="96" height="14" rx="7" fill="#cbd5e1" />
+  <rect x="304" y="292" width="48" height="14" rx="7" fill="#cbd5e1" />
+  
+  <!-- Divider Line -->
+  <line x1="160" y1="336" x2="352" y2="336" stroke="#e2e8f0" stroke-width="4" stroke-linecap="round" />
+  
+  <!-- Grand Total Highlight -->
+  <rect x="160" y="362" width="64" height="16" rx="8" fill="#1e293b" />
+  <rect x="280" y="362" width="72" height="16" rx="8" fill="#10b981" />
+</svg>

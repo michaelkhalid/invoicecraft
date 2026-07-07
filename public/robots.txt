@@ -1,6 +1,8 @@
 User-agent: *
 Allow: /
 Disallow: /*draft=
-Disallow: /*?view=generator
+Disallow: /generator?draft=
+Disallow: /*?view=
+Disallow: /*?blog=
 
 Sitemap: https://invoicecraft.co/sitemap.xml

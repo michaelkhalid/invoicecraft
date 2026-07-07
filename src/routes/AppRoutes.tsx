@@ -1,16 +1,35 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import HomePage from '../pages/HomePage';
-import InvoiceGenerator from '../pages/InvoiceGenerator';
-import AboutPage from '../pages/AboutPage';
-import ContactPage from '../pages/ContactPage';
-import FAQPage from '../pages/FAQPage';
-import Blog from '../pages/Blog';
-import PrivacyPolicyPage from '../pages/PrivacyPolicyPage';
-import TermsPage from '../pages/TermsPage';
-import CookiePolicyPage from '../pages/CookiePolicyPage';
-import DisclaimerPage from '../pages/DisclaimerPage';
-import NotFoundPage from '../pages/NotFoundPage';
+
+// 1. LAZY LOADING COMPONENT SPLITTING
+const HomePage = lazy(() => import('../pages/HomePage'));
+const InvoiceGenerator = lazy(() => import('../pages/InvoiceGenerator'));
+const AboutPage = lazy(() => import('../pages/AboutPage'));
+const ContactPage = lazy(() => import('../pages/ContactPage'));
+const FAQPage = lazy(() => import('../pages/FAQPage'));
+const Blog = lazy(() => import('../pages/Blog'));
+const PrivacyPolicyPage = lazy(() => import('../pages/PrivacyPolicyPage'));
+const TermsPage = lazy(() => import('../pages/TermsPage'));
+const CookiePolicyPage = lazy(() => import('../pages/CookiePolicyPage'));
+const DisclaimerPage = lazy(() => import('../pages/DisclaimerPage'));
+const NotFoundPage = lazy(() => import('../pages/NotFoundPage'));
+
+// Elegant loading state skeleton matching InvoiceCraft branding
+function RouteLoadingSpinner() {
+  return (
+    <div className="flex min-h-[60vh] w-full flex-col items-center justify-center py-12" id="route-loading-fallback">
+      <div className="relative flex h-16 w-16 items-center justify-center">
+        {/* Pulsing glow ring */}
+        <div className="absolute h-full w-full animate-ping rounded-full bg-blue-100 opacity-75 dark:bg-blue-950/40"></div>
+        {/* Spin cycle indicator */}
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-100 border-t-blue-600 dark:border-slate-800 dark:border-t-blue-400"></div>
+      </div>
+      <p className="mt-4 font-sans text-xs font-semibold tracking-wide text-slate-400 dark:text-slate-500 animate-pulse">
+        Securing session layout...
+      </p>
+    </div>
+  );
+}
 
 // Intercepts older query parameters (e.g. ?view=generator, ?blog=slug) and redirects them to the new clean router paths
 function LegacyQueryRedirector({ children }: { children: React.ReactNode }) {
@@ -62,20 +81,22 @@ function LegacyQueryRedirector({ children }: { children: React.ReactNode }) {
 export default function AppRoutes() {
   return (
     <LegacyQueryRedirector>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/generator" element={<InvoiceGenerator />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/faq" element={<FAQPage />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/blog/:slug" element={<Blog />} />
-        <Route path="/privacy" element={<PrivacyPolicyPage />} />
-        <Route path="/terms" element={<TermsPage />} />
-        <Route path="/cookie" element={<CookiePolicyPage />} />
-        <Route path="/disclaimer" element={<DisclaimerPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+      <Suspense fallback={<RouteLoadingSpinner />}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/generator" element={<InvoiceGenerator />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/faq" element={<FAQPage />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<Blog />} />
+          <Route path="/privacy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/cookie" element={<CookiePolicyPage />} />
+          <Route path="/disclaimer" element={<DisclaimerPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Suspense>
     </LegacyQueryRedirector>
   );
 }
