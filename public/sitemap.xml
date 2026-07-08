@@ -34,6 +34,30 @@
     <priority>0.7</priority>
   </url>
 
+  <!-- Blog Post: How to create a professional invoice -->
+  <url>
+    <loc>https://invoicecraft.co/blog/how-to-create-a-professional-invoice</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Blog Post: Best free invoice generator for small businesses -->
+  <url>
+    <loc>https://invoicecraft.co/blog/best-free-invoice-generator-for-small-businesses</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Blog Post: Invoice vs receipt what's the difference -->
+  <url>
+    <loc>https://invoicecraft.co/blog/invoice-vs-receipt-whats-the-difference</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- Blog Post: How to write a professional invoice -->
   <url>
     <loc>https://invoicecraft.co/blog/how-to-write-a-professional-invoice</loc>
