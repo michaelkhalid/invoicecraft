@@ -31,6 +31,46 @@ function RouteLoadingSpinner() {
   );
 }
 
+// ============================================================================
+// MIGRATION PLAN & ROUTING SYSTEM AUDIT (PHASE 1 PREPARATION)
+// ============================================================================
+// TODO: Safe Router Migration Checklist
+// 
+// 1. Old Navigation Dependencies & Systems Identified:
+//    - Legacy parameter-based query routing (?view=generator, ?view=faq, ?view=about, etc.)
+//    - Legacy query-parameter (?blog=slug) for direct article linking
+//    - Legacy query-parameter (?draft=...) for loading draft states
+// 
+// 2. Affected Files / References:
+//    - src/routes/AppRoutes.tsx (acts as the current interceptor & translation layer)
+//    - No components, page templates, header, or footer files reference/produce 
+//      legacy parameter-based navigation (?view=...) anymore; all have been upgraded 
+//      to modern SPA <Link> navigation.
+// 
+// 3. BrowserRouter Verification:
+//    - VERIFIED: BrowserRouter is active as the root wrapper in src/App.tsx.
+// 
+// 4. Page Existence Verification:
+//    - VERIFIED: All target pages are successfully defined in src/pages/ and mapped:
+//      * HomePage (/)
+//      * InvoiceGenerator (/generator)
+//      * AboutPage (/about)
+//      * ContactPage (/contact)
+//      * FAQPage (/faq)
+//      * Blog (/blog & /blog/:slug)
+//      * PrivacyPolicyPage (/privacy)
+//      * TermsPage (/terms)
+//      * CookiePolicyPage (/cookie)
+//      * DisclaimerPage (/disclaimer)
+//      * NotFoundPage (*)
+// 
+// 5. Dual Systems / Duplicate Routing Coexistence:
+//    - This useEffect block currently acts as a clean backward-compatibility bridge 
+//      converting legacy bookmark query links to standard React Router SPA paths.
+//    - In Phase 2, this redirect logic can be fully moved to server-side rewrites 
+//      or standard client-side routing logic if needed, ensuring zero broken links.
+// ============================================================================
+
 // Intercepts older query parameters (e.g. ?view=generator, ?blog=slug) and redirects them to the new clean router paths
 export default function AppRoutes() {
   const location = useLocation();
