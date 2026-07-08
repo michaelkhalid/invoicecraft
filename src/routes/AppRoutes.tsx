@@ -32,7 +32,7 @@ function RouteLoadingSpinner() {
 }
 
 // Intercepts older query parameters (e.g. ?view=generator, ?blog=slug) and redirects them to the new clean router paths
-function LegacyQueryRedirector({ children }: { children: React.ReactNode }) {
+export default function AppRoutes() {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -75,28 +75,22 @@ function LegacyQueryRedirector({ children }: { children: React.ReactNode }) {
     }
   }, [location, navigate]);
 
-  return <>{children}</>;
-}
-
-export default function AppRoutes() {
   return (
-    <LegacyQueryRedirector>
-      <Suspense fallback={<RouteLoadingSpinner />}>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/generator" element={<InvoiceGenerator />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/faq" element={<FAQPage />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:slug" element={<Blog />} />
-          <Route path="/privacy" element={<PrivacyPolicyPage />} />
-          <Route path="/terms" element={<TermsPage />} />
-          <Route path="/cookie" element={<CookiePolicyPage />} />
-          <Route path="/disclaimer" element={<DisclaimerPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </Suspense>
-    </LegacyQueryRedirector>
+    <Suspense fallback={<RouteLoadingSpinner />}>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/generator" element={<InvoiceGenerator />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/faq" element={<FAQPage />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<Blog />} />
+        <Route path="/privacy" element={<PrivacyPolicyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+        <Route path="/cookie" element={<CookiePolicyPage />} />
+        <Route path="/disclaimer" element={<DisclaimerPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </Suspense>
   );
 }
