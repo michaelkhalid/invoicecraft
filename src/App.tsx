@@ -32,13 +32,16 @@ export default function App() {
   };
 
   return (
-    <Router>
-      <SEOManager />
-      <Routes>
-        <Route element={<RootLayout darkMode={darkMode} onToggleDarkMode={toggleDarkMode} />}>
-          <Route path="/*" element={<AppRoutes />} />
-        </Route>
-      </Routes>
-    </Router>
+    return (
+  <Router>
+    {/* <SEOManager /> */}
+
+    <Routes>
+      <Route element={<RootLayout darkMode={darkMode} onToggleDarkMode={toggleDarkMode} />}>
+        <Route path="/*" element={<AppRoutes />} />
+      </Route>
+    </Routes>
+  </Router>
+);
   );
 }
